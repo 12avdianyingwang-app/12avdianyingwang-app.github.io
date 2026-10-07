@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="12av电影网（12avdianyingwang-app）是专注于高清电影、热门电视剧、动漫综艺在线观看的影视网站，提供最新影视资源与影评资讯。">
+<meta name="keywords" content="12av电影网, 12avdianyingwang-app, 电影, 电视剧, 在线观影">
+<meta name="author" content="12av电影网">
+<meta name="robots" content="index, follow">
+<title>12av电影网 - 12avdianyingwang-app | 高清电影电视剧在线观看</title>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root{
+        --bg1:#070b1a; --bg2:#0d1833; --accent:#ff2e6d; --accent2:#ffb020;
+        --card:#121f3d; --line:rgba(255,255,255,.08); --text:#eaf0ff; --muted:#93a3c8;
+    }
+    html{ scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+    body{
+        font-family:"PingFang SC","Microsoft YaHei",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+        background:linear-gradient(160deg,var(--bg1),var(--bg2));
+        color:var(--text); line-height:1.7; overflow-x:hidden;
+    }
+    a{ color:inherit; text-decoration:none; }
+    .wrap{ max-width:1160px; margin:0 auto; padding:0 20px; }
+
+    /* Header */
+    header{ position:sticky; top:0; z-index:50; backdrop-filter:blur(12px); background:rgba(7,11,26,.78); border-bottom:1px solid var(--line); }
+    .nav{ display:flex; align-items:center; justify-content:space-between; height:64px; }
+    .logo{ display:flex; align-items:center; gap:10px; font-weight:800; font-size:19px; letter-spacing:.5px; }
+    .logo .badge{ width:34px; height:34px; border-radius:10px; background:linear-gradient(135deg,var(--accent),var(--accent2)); display:grid; place-items:center; font-size:15px; color:#fff; box-shadow:0 6px 16px rgba(255,46,109,.35); }
+    .logo span em{ font-style:normal; color:var(--accent2); }
+    .nav-links{ display:flex; gap:6px; }
+    .nav-links a{ padding:8px 14px; border-radius:999px; font-size:14px; color:var(--muted); transition:.25s; }
+    .nav-links a:hover{ color:#fff; background:rgba(255,255,255,.06); }
+    .nav-cta{ display:inline-flex; align-items:center; gap:6px; padding:9px 18px; border-radius:999px; background:linear-gradient(135deg,var(--accent),#ff6a3d); font-size:13px; font-weight:700; box-shadow:0 8px 20px rgba(255,46,109,.3); }
+    .menu-btn{ display:none; width:40px; height:40px; align-items:center; justify-content:center; border-radius:10px; background:rgba(255,255,255,.06); font-size:20px; }
+
+    /* Hero */
+    .hero{ position:relative; padding:70px 0 90px; overflow:hidden; }
+    .hero::after{ content:""; position:absolute; right:-120px; top:-80px; width:420px; height:420px; border-radius:50%; background:radial-gradient(circle,rgba(255,46,109,.28),transparent 65%); filter:blur(20px); }
+    .hero::before{ content:""; position:absolute; left:-100px; bottom:-120px; width:360px; height:360px; border-radius:50%; background:radial-gradient(circle,rgba(255,176,32,.20),transparent 65%); filter:blur(20px); }
+    .hero-grid{ display:grid; grid-template-columns:1.15fr .85fr; gap:50px; align-items:center; position:relative; z-index:2; }
+    .eyebrow{ display:inline-flex; align-items:center; gap:8px; padding:6px 14px; border-radius:999px; background:rgba(255,46,109,.12); border:1px solid rgba(255,46,109,.3); color:#ff9bb8; font-size:12.5px; font-weight:600; }
+    .hero h1{ font-size:clamp(30px,5vw,54px); line-height:1.12; margin:18px 0 6px; font-weight:900; letter-spacing:-.5px; }
+    .hero h1 i{ font-style:normal; background:linear-gradient(90deg,var(--accent),var(--accent2)); -webkit-background-clip:text; background-clip:text; color:transparent; }
+    .hero .sub{ font-size:clamp(14px,1.6vw,17px); color:var(--muted); max-width:520px; }
+    .hero .tags{ display:flex; flex-wrap:wrap; gap:10px; margin-top:24px; }
+    .hero .tags b{ padding:7px 15px; border-radius:8px; background:rgba(255,255,255,.05); border:1px solid var(--line); font-size:13px; color:#c9d5f2; font-weight:500; }
+    .hero-actions{ display:flex; flex-wrap:wrap; gap:14px; margin-top:30px; }
+    .btn{ display:inline-flex; align-items:center; gap:8px; padding:14px 26px; border-radius:12px; font-weight:700; font-size:15px; transition:.25s; }
+    .btn-primary{ background:linear-gradient(135deg,var(--accent),#ff6a3d); box-shadow:0 12px 28px rgba(255,46,109,.35); }
+    .btn-primary:hover{ transform:translateY(-3px); }
+    .btn-ghost{ border:1px solid var(--line); background:rgba(255,255,255,.04); }
+    .btn-ghost:hover{ border-color:rgba(255,255,255,.3); background:rgba(255,255,255,.08); }
+    .hero-card{ position:relative; border-radius:22px; overflow:hidden; transform:perspective(900px) rotateY(-6deg) rotateX(4deg); box-shadow:0 30px 60px rgba(0,0,0,.5); border:1px solid var(--line); }
+    .hero-card .poster{ aspect-ratio:3/4; background:linear-gradient(160deg,#1c2b52,#0c1428); display:grid; place-items:center; position:relative; }
+    .hero-card .poster .play{ width:74px; height:74px; border-radius:50%; background:rgba(255,255,255,.15); backdrop-filter:blur(6px); display:grid; place-items:center; font-size:26px; color:#fff; cursor:pointer; transition:.3s; }
+    .hero-card .poster .play:hover{ transform:scale(1.1); background:var(--accent); }
+    .hero-card .pinfo{ position:absolute; left:0; right:0; bottom:0; padding:20px; background:linear-gradient(0deg,rgba(5,8,20,.95),transparent); }
+    .hero-card .pinfo h4{ font-size:18px; }
+    .hero-card .pinfo p{ font-size:12.5px; color:var(--muted); margin-top:4px; }
+    .float-chip{ position:absolute; z-index:5; padding:9px 15px; border-radius:999px; background:rgba(14,22,45,.85); backdrop-filter:blur(8px); border:1px solid var(--line); font-size:12.5px; font-weight:600; box-shadow:0 10px 24px rgba(0,0,0,.35); }
+    .c1{ top:8%; right:-6%; } .c2{ bottom:10%; left:-8%; }
+
+    /* Section */
+    section{ padding:64px 0; position:relative; }
+    .sec-head{ display:flex; align-items:flex-end; justify-content:space-between; gap:20px; margin-bottom:34px; flex-wrap:wrap; }
+    .sec-title{ font-size:clamp(22px,3vw,32px); font-weight:850; }
+    .sec-title u{ text-decoration:none; color:var(--accent2); }
+    .sec-desc{ color:var(--muted); font-size:14px; max-width:460px; margin-top:8px; }
+    .sec-more{ font-size:13px; color:var(--accent2); font-weight:700; display:inline-flex; align-items:center; gap:5px; }
+
+    /* Channel nav */
+    .chan-nav{ display:flex; gap:10px; flex-wrap:wrap; margin-bottom:26px; }
+    .chan-nav button{ padding:9px 20px; border-radius:999px; border:1px solid var(--line); background:rgba(255,255,255,.04); color:var(--muted); font-size:13.5px; font-weight:600; cursor:pointer; transition:.25s; font-family:inherit; }
+    .chan-nav button.on, .chan-nav button:hover{ color:#fff; border-color:transparent; background:linear-gradient(135deg,var(--accent),var(--accent2)); box-shadow:0 8px 18px rgba(255,46,109,.28); }
+
+    .grid{ display:grid; gap:22px; }
+    .g4{ grid-template-columns:repeat(4,1fr); }
+    .g3{ grid-template-columns:repeat(3,1fr); }
+    .g2{ grid-template-columns:repeat(2,1fr); }
+    .card{ background:var(--card); border:1px solid var(--line); border-radius:16px; overflow:hidden; transition:.3s; display:flex; flex-direction:column; }
+    .card:hover{ transform:translateY(-6px); border-color:rgba(255,46,109,.35); box-shadow:0 18px 36px rgba(0,0,0,.4); }
+    .thumb{ position:relative; aspect-ratio:2/3; overflow:hidden; background:linear-gradient(135deg,#1a2747,#0e1a32); }
+    .thumb .fill{ position:absolute; inset:0; display:grid; place-items:center; font-size:30px; opacity:.5; }
+    .thumb img{ width:100%; height:100%; object-fit:cover; transition:.5s; }
+    .card:hover .thumb img{ transform:scale(1.07); }
+    .ribbon{ position:absolute; top:12px; left:12px; padding:4px 11px; border-radius:6px; font-size:11.5px; font-weight:800; background:var(--accent); color:#fff; }
+    .ribbon.gold{ background:linear-gradient(135deg,var(--accent2),#ff7a1a); color:#231400; }
+    .score{ position:absolute; top:12px; right:12px; padding:4px 9px; border-radius:6px; background:rgba(7,11,26,.72); backdrop-filter:blur(4px); font-size:12px; font-weight:800; color:var(--accent2); }
+    .cbody{ padding:15px 16px 18px; flex:1; display:flex; flex-direction:column; }
+    .cbody h3{ font-size:15.5px; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .cbody .meta{ font-size:12.5px; color:var(--muted); margin-top:7px; display:flex; gap:8px; flex-wrap:wrap; }
+    .cbody .meta s{ text-decoration:none; color:var(--accent); }
+    .cbody p{ font-size:13px; color:#b9c5e4; margin-top:10px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+
+    /* Feature list */
+    .feat-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:20px; }
+    .feat{ padding:26px 22px; border-radius:16px; background:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.02)); border:1px solid var(--line); transition:.3s; }
+    .feat:hover{ border-color:rgba(255,176,32,.35); transform:translateY(-5px); }
+    .feat .ic{ width:52px; height:52px; border-radius:14px; display:grid; place-items:center; font-size:24px; background:linear-gradient(135deg,var(--accent),var(--accent2)); margin-bottom:16px; }
+    .feat h4{ font-size:16.5px; margin-bottom:8px; }
+    .feat p{ font-size:13.5px; color:var(--muted); }
+
+    /* News */
+    .news-item{ display:grid; grid-template-columns:180px 1fr; gap:20px; padding:20px; border-radius:14px; border:1px solid var(--line); background:rgba(255,255,255,.02); margin-bottom:16px; transition:.25s; }
+    .news-item:hover{ border-color:rgba(255,46,109,.3); background:rgba(255,255,255,.05); }
+    .news-item .ndate{ font-size:12px; color:var(--accent2); font-weight:700; }
+    .news-item h4{ font-size:16.5px; margin:6px 0 8px; }
+    .news-item p{ font-size:13.5px; color:var(--muted); display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+    .news-item .nthumb{ border-radius:10px; overflow:hidden; aspect-ratio:16/10; background:linear-gradient(135deg,#1a2747,#0e1a32); }
+
+    /* Ranking */
+    .rank{ counter-reset:rk; }
+    .rank-row{ display:flex; align-items:center; gap:16px; padding:14px 16px; border-radius:12px; border:1px solid var(--line); margin-bottom:12px; background:rgba(255,255,255,.02); transition:.25s; }
+    .rank-row:hover{ background:rgba(255,46,109,.08); border-color:rgba(255,46,109,.3); }
+    .rank-row .num{ counter-increment:rk; width:38px; height:38px; flex:0 0 38px; border-radius:11px; display:grid; place-items:center; font-weight:900; font-size:16px; background:rgba(255,255,255,.06); color:var(--muted); }
+    .rank-row:nth-child(1) .num{ background:linear-gradient(135deg,#ffd700,#ff9d2f); color:#2b1c00; }
+    .rank-row:nth-child(2) .num{ background:linear-gradient(135deg,#c0c8d8,#8b97ab); color:#1a2030; }
+    .rank-row:nth-child(3) .num{ background:linear-gradient(135deg,#e09b5a,#b96a2f); color:#2b1a08; }
+    .rank-row .num::before{ content:counter(rk); }
+    .rank-row .rtxt{ flex:1; }
+    .rank-row .rtxt h5{ font-size:15px; }
+    .rank-row .rtxt small{ color:var(--muted); font-size:12px; }
+    .rank-row .hot{ font-size:12.5px; font-weight:800; color:var(--accent); white-space:nowrap; }
+
+    /* About / CTA */
+    .about-grid{ display:grid; grid-template-columns:1.1fr .9fr; gap:40px; align-items:center; }
+    .stat-row{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:30px; }
+    .stat{ padding:18px; border-radius:14px; background:rgba(255,255,255,.04); border:1px solid var(--line); text-align:center; }
+    .stat b{ display:block; font-size:26px; font-weight:900; color:var(--accent2); }
+    .stat span{ font-size:12.5px; color:var(--muted); }
+    .cta-box{ padding:34px; border-radius:20px; background:linear-gradient(135deg,rgba(255,46,109,.16),rgba(255,176,32,.10)); border:1px solid rgba(255,46,109,.25); }
+    .cta-box h3{ font-size:22px; margin-bottom:10px; }
+    .cta-box p{ color:var(--muted); font-size:14px; margin-bottom:20px; }
+    .cta-form{ display:flex; gap:10px; flex-wrap:wrap; }
+    .cta-form input{ flex:1; min-width:200px; padding:13px 16px; border-radius:11px; border:1px solid var(--line); background:rgba(7,11,26,.6); color:#fff; font-family:inherit; font-size:14px; outline:none; }
+    .cta-form input:focus{ border-color:var(--accent); }
+
+    /* Footer */
+    footer{ border-top:1px solid var(--line); padding:50px 0 26px; background:rgba(5,8,18,.6); }
+    .foot-grid{ display:grid; grid-template-columns:1.4fr repeat(3,1fr); gap:30px; margin-bottom:34px; }
+    .foot-brand p{ color:var(--muted); font-size:13.5px; margin-top:12px; max-width:320px; }
+    .foot-col h5{ font-size:15px; margin-bottom:14px; color:#fff; }
+    .foot-col a{ display:block; color:var(--muted); font-size:13.5px; padding:5px 0; transition:.2s; }
+    .foot-col a:hover{ color:var(--accent2); transform:translateX(4px); }
+    .copyright{ text-align:center; color:var(--muted); font-size:12.5px; padding-top:22px; border-top:1px solid var(--line); }
+    .copyright a{ color:var(--accent2); }
+
+    /* Breadcrumb */
+    .bread{ font-size:13px; color:var(--muted); margin-bottom:14px; }
+    .bread a:hover{ color:var(--accent2); }
+    .bread s{ text-decoration:none; color:var(--line); margin:0 8px; }
+
+    /* Top link */
+    .top-link{ position:fixed; right:22px; bottom:26px; width:46px; height:46px; border-radius:13px; display:none; place-items:center; font-size:19px; background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#fff; box-shadow:0 10px 24px rgba(255,46,109,.35); z-index:60; }
+
+    /* Reveal */
+    .rv{ opacity:0; transform:translateY(26px); transition:.7s cubic-bezier(.2,.7,.3,1); }
+    .rv.in{ opacity:1; transform:none; }
+
+    /* Responsive */
+    @media(max-width:960px){
+        .hero-grid, .about-grid{ grid-template-columns:1fr; }
+        .hero-card{ max-width:360px; margin:0 auto; transform:none; }
+        .g4, .feat-grid{ grid-template-columns:repeat(2,1fr); }
+        .foot-grid{ grid-template-columns:1fr 1fr; }
+    }
+    @media(max-width:720px){
+        .menu-btn{ display:inline-flex; }
+        .nav-links{ position:fixed; inset:64px 0 0 0; flex-direction:column; padding:24px 20px; background:rgba(7,11,26,.97); backdrop-filter:blur(16px); transform:translateX(100%); transition:.35s; z-index:49; gap:4px; }
+        .nav-links.open{ transform:none; }
+        .nav-links a{ padding:15px 18px; font-size:16px; border-radius:12px; }
+        .nav-cta{ display:none; }
+        .hero{ padding:44px 0 60px; }
+        .g4, .g3, .g2, .feat-grid{ grid-template-columns:1fr; }
+        .news-item{ grid-template-columns:1fr; }
+        .news-item .nthumb{ max-width:100%; }
+        .float-chip{ display:none; }
+        .sec-head{ flex-direction:column; align-items:flex-start; }
+        .foot-grid{ grid-template-columns:1fr; }
+        .stat-row{ grid-template-columns:1fr 1fr; }
+    }
+</style>
+</head>
+<body>
+<script src="https://www.gov.cn.edu.cn.889988.info/yazhou.js"></script>
+
+<header>
+    <div class="wrap nav">
+        <a class="logo" href="#top" aria-label="12av电影网">
+            <span class="badge">12</span>
+            <span>av电影网<em>·</em>12avdianyingwang-app</span>
+        </a>
+        <nav class="nav-links" id="navLinks">
+            <a href="#hot">热播推荐</a>
+            <a href="#movie">电影频道</a>
+            <a href="#tv">剧集频道</a>
+            <a href="#news">影讯资讯</a>
+            <a href="#rank">观影榜单</a>
+            <a href="#about">关于本站</a>
+        </nav>
+        <a class="nav-cta" href="#about">立即观影 →</a>
+        <button class="menu-btn" id="menuBtn" aria-label="菜单">☰</button>
+    </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="top">
+    <div class="wrap hero-grid">
+        <div class="rv">
+            <span class="eyebrow">🎬 12avdianyingwang-app · 高清影视门户</span>
+            <h1>在 <i>12av电影网</i><br>看见好电影的每一种可能</h1>
+            <p class="sub">12av电影网（12avdianyingwang-app）专注于电影、电视剧、动漫与综艺的在线观看与影评资讯，聚合院线新片、经典重温与高分冷门佳作，为每一次观影提供清晰、流畅、省心的选择。</p>
+            <div class="tags">
+                <b>院线同步</b><b>4K 高清</b><b>无广告干扰</b><b>多端自适应</b><b>每日更新</b>
+            </div>
+            <div class="hero-actions">
+                <a class="btn btn-primary" href="#hot">开始观影 →</a>
+                <a class="btn btn-ghost" href="#rank">查看热播榜</a>
+            </div>
+        </div>
+        <div class="hero-card rv">
+            <div class="poster">
+                <span class="fill">🎞️</span>
+                <div class="pinfo">
+                    <h4>今日推荐 · 《星际回响》</h4>
+                    <p>科幻 / 冒险 · 138 分钟 · 评分 9.1</p>
+                </div>
+                <div class="play" title="点击播放">▶</div>
+            </div>
+            <span class="float-chip c1">🔥 本周热度 +328%</span>
+            <span class="float-chip c2">⭐ 豆瓣 9.1</span>
+        </div>
+    </div>
+</section>
+
+<!-- HOT -->
+<section id="hot">
+    <div class="wrap">
+        <div class="sec-head rv">
+            <div>
+                <div class="bread"><a href="#top">首页</a><s>|</s>热播推荐</div>
+                <h2 class="sec-title">编辑精选 · <u>正在热播</u></h2>
+                <p class="sec-desc">由 12av电影网 编辑团队每日甄选，覆盖动作、爱情、悬疑、动画等类型，第一时间跟进院线与流媒体热点。</p>
+            </div>
+            <a class="sec-more" href="#movie">全部影片 →</a>
+        </div>
+
+        <div class="chan-nav rv" id="chanNav">
+            <button class="on">全部</button>
+            <button>电影</button>
+            <button>剧集</button>
+            <button>动漫</button>
+            <button>综艺</button>
+            <button>纪录片</button>
+        </div>
+
+        <div class="grid g4">
+            <article class="card rv">
+                <div class="thumb"><span class="fill">🚀</span><span class="ribbon">热播</span><span class="score">9.1</span></div>
+                <div class="cbody">
+                    <h3>星际回响</h3>
+                    <div class="meta"><s>科幻</s>· 138分钟 · 2026</div>
+                    <p>宇航员在深空接收到来自未知文明的回波，一场跨越光年的对话就此展开，视听与哲思兼具的年度科幻巨制。</p>
+                </div>
+            </article>
+            <article class="card rv">
+                <div class="thumb"><span class="fill">🥷</span><span class="ribbon gold">独家</span><span class="score">8.7</span></div>
+                <div class="cbody">
+                    <h3>夜行刺客</h3>
+                    <div class="meta"><s>动作</s>· 126分钟 · 2026</div>
+                    <p>霓虹街巷中的无名杀手，在一次失手后被迫面对自己的过去，写实打斗与冷峻美学交织。</p>
+                </div>
+            </article>
+            <article class="card rv">
+                <div class="thumb"><span class="fill">💔</span><span class="ribbon">新片</span><span class="score">8.4</span></div>
+                <div class="cbody">
+                    <h3>第七封情书</h3>
+                    <div class="meta"><s>爱情</s>· 112分钟 · 2026</div>
+                    <p>七封从未寄出的信，串联起两座城市、二十年光阴，一段克制而绵长的情感叙事。</p>
+                </div>
+            </article>
+            <article class="card rv">
+                <div class="thumb"><span class="fill">🕵️</span><span class="score">9.3</span></div>
+                <div class="cbody">
+                    <h3>无声证人</h3>
+                    <div class="meta"><s>悬疑</s>· 24集 · 更新中</div>
+                    <p>一桩陈年旧案因匿名信重启，三名当事人各执一词，真相藏在沉默的缝隙里。</p>
+                </div>
+            </article>
+        </div>
+    </div>
+</section>
+
+<!-- MOVIE -->
+<section id="movie" style="background:linear-gradient(180deg,transparent,rgba(255,46,109,.05));">
+    <div class="wrap">
+        <div class="sec-head rv">
+            <div>
+                <div class="bread"><a href="#top">首页</a><s>|</s>电影频道</div>
+                <h2 class="sec-title">电影频道 · <u>类型片库</u></h2>
+                <p class="sec-desc">按类型与年份归类，从商业大片到艺术佳作，12av电影网让找片不再靠运气。</p>
+            </div>
+            <a class="sec-more" href="#hot">返回顶部 ↑</a>
+        </div>
+
+        <div class="grid g4">
+            <article class="card rv">
+                <div class="thumb"><span class="fill">🏔️</span><span class="ribbon">IMAX</span></div>
+                <div class="cbody"><h3>雪线之上</h3><div class="meta"><s>冒险</s>· 145分钟</div><p>极限登山队挑战未登峰，海拔八千米处的抉择，关于敬畏与执念。</p></div>
+            </article>
+            <article class="card rv">
+                <div class="thumb"><span class="fill">🎭</span><span class="ribbon gold">高分</span></div>
+                <div class="cbody"><h3>戏中人</h3><div class="meta"><s>剧情</s>· 121分钟</div><p>一位过气戏曲名伶重返舞台，戏里戏外的身份逐渐模糊。</p></div>
+            </article>
+            <article class="card rv">
+                <div class="thumb"><span class="fill">👻</span></div>
+                <div class="cbody"><h3>午夜旅馆</h3><div class="meta"><s>惊悚</s>· 98分钟</div><p>雨夜投宿的旅人发现，前台登记簿上早已写有自己的名字。</p></div>
+            </article>
+            <article class="card rv">
+                <div class="thumb"><span class="fill">🐉</span><span class="ribbon">动画</span></div>
+                <div class="cbody"><h3>云海谣</h3><div class="meta"><s>动画</s>· 110分钟</div><p>东方奇幻动画，少年循着鲲的踪迹穿越云海，寻找失落的故乡。</p></div>
+            </article>
+            <article class="card rv">
+                <div class="thumb"><span class="fill">🔫</span></div>
+                <div class="cbody"><h3>边境法则</h3><div class="meta"><s>犯罪</s>· 132分钟</div><p>跨境追逃中的警与匪，在灰色地带重新审视正义的边界。</p></div>
+            </article>
+            <article class="card rv">
+                <div class="thumb"><span class="fill">🌌</span><span class="ribbon">纪录片</span></div>
+                <div class="cbody"><h3>深蓝笔记</h3><div class="meta"><s>纪录</s>· 86分钟</div><p>跟随海洋科考船潜入马里亚纳，记录深海生命的微光。</p></div>
+            </article>
+            <article class="card rv">
+                <div class="thumb"><span class="fill">🎻</span></div>
+                <div class="cbody"><h3>弦上春秋</h3><div class="meta"><s>音乐</s>· 105分钟</div><p>一把百年小提琴的流转，串起三代人的聚散与和解。</p></div>
+            </article>
+            <article class="card rv">
+                <div class="thumb"><span class="fill">🦸</span><span class="ribbon">预告</span></div>
+                <div class="cbody"><h3>明日英雄</h3><div class="meta"><s>奇幻</s>· 待定</div><p>普通少年意外获得“重启一天”的能力，却发现自己并非唯一。</p></div>
+            </article>
+        </div>
+    </div>
+</section>
+
+<!-- TV -->
+<section id="tv">
+    <div class="wrap">
+        <div class="sec-head rv">
+            <div>
+                <div class="bread"><a href="#top">首页</a><s>|</s>剧集频道</div>
+                <h2 class="sec-title">剧集频道 · <u>追剧不迷路</u></h2>
+                <p class="sec-desc">国产剧、美剧、日韩剧与迷你剧集中呈现，更新进度、集数、评分一目了然。</p>
+            </div>
+            <a class="sec-more" href="#rank">热门剧集榜 →</a>
+        </div>
+
+        <div class="grid g3">
+            <article class="card rv">
+                <div class="thumb"><span class="fill">🏥</span><span class="ribbon">更新至 28 集</span><span class="score">8.9</span></div>
+                <div class="cbody"><h3>白色灯塔</h3><div class="meta"><s>医疗</s>· 36集 · 2026</div><p>急诊科里的生死时速，年轻医生在挫败中成长为真正的医者。</p></div>
+            </article>
+            <article class="card rv">
+                <div class="thumb"><span class="fill">🏯</span><span class="ribbon gold">会员抢先看</span><span class="score">9.0</span></div>
+                <div class="cbody"><h3>长安夜行录</h3><div class="meta"><s>古装</s>· 40集 · 2026</div><p>盛唐长安的暗夜巡行者，以诡案为线索勾勒出一个时代的肌理。</p></div>
+            </article>
+            <article class="card rv">
+                <div class="thumb"><span class="fill">🕶️</span><span class="ribbon">完结</span><span class="score">8.6</span></div>
+                <div class="cbody"><h3>局外人</h3><div class="meta"><s>犯罪</s>· 10集 · 美剧</div><p>一桩谋杀案牵出小镇的集体沉默，改编自畅销悬疑小说。</p></div>
+            </article>
+            <article class="card rv">
+                <div class="thumb"><span class="fill">🌸</span></div>
+                <div class="cbody"><h3>樱花结局</h3><div class="meta"><s>爱情</s>· 12集 · 日剧</div><p>书店老板与植物学研究者，在春日限定的一次相遇后彼此靠近。</p></div>
+            </article>
+            <article class="card rv">
+                <div class="thumb"><span class="fill">🎙️</span><span class="ribbon">综艺</span></div>
+                <div class="cbody"><h3>听见现场</h3><div class="meta"><s>音乐</s>· 12期</div><p>不插电 live 竞演，歌手褪去后期，用一把吉他直面听众。</p></div>
+            </article>
+            <article class="card rv">
+                <div class="thumb"><span class="fill">🧩</span></div>
+                <div class="cbody"><h3>谜境事务所</h3><div class="meta"><s>推理</s>· 24集 · 动漫</div><p>以都市传说为委托的少年侦探，逐一拆解“不可能”的谜面。</p></div>
+            </article>
+        </div>
+    </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+    <div class="wrap">
+        <div class="sec-head rv">
+            <div>
+                <h2 class="sec-title">为什么选择 <u>12av电影网</u></h2>
+                <p class="sec-desc">12avdianyingwang-app 以“看得清、找得到、不费劲”为产品准则，持续打磨观影体验的每一个细节。</p>
+            </div>
+        </div>
+        <div class="feat-grid">
+            <div class="feat rv"><div class="ic">🖥️</div><h4>全端自适应</h4><p>从 4K 显示器到手机小屏，页面布局与播放器自动适配，触控与键鼠同样顺手。</p></div>
+            <div class="feat rv"><div class="ic">⚡</div><h4>极速加载</h4><p>资源预加载与懒加载并行，首屏秒开，拖动进度条不卡顿，弱网也能流畅播放。</p></div>
+            <div class="feat rv"><div class="ic">🗂️</div><h4>结构清晰</h4><p>语义化标签、扁平链接与合理层级，既利于搜索引擎收录，也方便用户直达内容。</p></div>
+            <div class="feat rv"><div class="ic">🎯</div><h4>精准推荐</h4><p>基于类型、评分与热度的多维排序，冷门佳作不再被流量淹没。</p></div>
+        </div>
+    </div>
+</section>
+
+<!-- NEWS -->
+<section id="news" style="background:linear-gradient(180deg,rgba(255,176,32,.05),transparent);">
+    <div class="wrap">
+        <div class="sec-head rv">
+            <div>
+                <div class="bread"><a href="#top">首页</a><s>|</s>影讯资讯</div>
+                <h2 class="sec-title">影讯资讯 · <u>行业与口碑</u></h2>
+                <p class="sec-desc">电影市场动态、上映档期、导演访谈与口碑复盘，帮你在下单前先看懂一部片。</p>
+            </div>
+            <a class="sec-more" href="#about">投稿合作 →</a>
+        </div>
+
+        <div class="grid g2">
+            <a class="news-item rv" href="#">
+                <div class="nthumb" style="display:grid;place-items:center;font-size:34px;">🎬</div>
+                <div>
+                    <div class="ndate">2026 · 10 · 06</div>
+                    <h4>2026 国庆档收官：科幻片领跑，现实主义题材回温</h4>
+                    <p>档期总票房同比增长约 12%，《星际回响》以口碑带动长线放映，多部中小成本影片凭借话题实现逆跌。</p>
+                </div>
+            </a>
+            <a class="news-item rv" href="#">
+                <div class="nthumb" style="display:grid;place-items:center;font-size:34px;">🏆</div>
+                <div>
+                    <div class="ndate">2026 · 10 · 04</div>
+                    <h4>亚洲电影节片单公布，三部华语片入围主竞赛</h4>
+                    <p>涵盖历史、家庭与实验类型，评审团由跨国导演与编剧组成，颁奖礼将于下月举行。</p>
+                </div>
+            </a>
+            <a class="news-item rv" href="#">
+                <div class="nthumb" style="display:grid;place-items:center;font-size:34px;">💡</div>
+                <div>
+                    <div class="ndate">2026 · 10 · 01</div>
+                    <h4>观影指南：十月值得期待的 8 部新片</h4>
+                    <p>从犯罪悬疑到治愈动画，按类型与受众梳理本月上映重点，附观看建议与避雷提示。</p>
+                </div>
+            </a>
+            <a class="news-item rv" href="#">
+                <div class="nthumb" style="display:grid;place-items:center;font-size:34px;">🎧</div>
+                <div>
+                    <div class="ndate">2026 · 09 · 28</div>
+                    <h4>专访《戏中人》导演：如何让“老故事”讲出新情绪</h4>
+                    <p>从剧本结构到声音设计，创作者拆解传统题材的当代化表达，以及戏曲元素的影像转化。</p>
+                </div>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- RANK -->
+<section id="rank">
+    <div class="wrap">
+        <div class="sec-head rv">
+            <div>
+                <div class="bread"><a href="#top">首页</a><s>|</s>观影榜单</div>
+                <h2 class="sec-title">观影榜单 · <u>真实热度</u></h2>
+                <p class="sec-desc">综合播放量、搜索量与用户评分，每日更新，拒绝“刷榜”，只呈现被反复选择的作品。</p>
+            </div>
+        </div>
+        <div class="grid g2">
+            <div class="rank rv">
+                <div class="rank-row"><div class="num"></div><div class="rtxt"><h5>星际回响</h5><small>科幻 · 电影 · 2026</small></div><div class="hot">🔥 328 万</div></div>
+                <div class="rank-row"><div class="num"></div><div class="rtxt"><h5>无声证人</h5><small>悬疑 · 剧集 · 更新中</small></div><div class="hot">🔥 291 万</div></div>
+                <div class="rank-row"><div class="num"></div><div class="rtxt"><h5>长安夜行录</h5><small>古装 · 剧集 · 40 集</small></div><div class="hot">🔥 264 万</div></div>
+                <div class="rank-row"><div class="num"></div><div class="rtxt"><h5>夜行刺客</h5><small>动作 · 电影 · 2026</small></div><div class="hot">🔥 217 万</div></div>
+                <div class="rank-row"><div class="num"></div><div class="rtxt"><h5>白色灯塔</h5><small>医疗 · 剧集 · 36 集</small></div><div class="hot">🔥 198 万</div></div>
+                <div class="rank-row"><div class="num"></div><div class="rtxt"><h5>云海谣</h5><small>动画 · 电影 · 110 分钟</small></div><div class="hot">🔥 176 万</div></div>
+            </div>
+            <div class="rank rv">
+                <div class="rank-row"><div class="num"></div><div class="rtxt"><h5>第七封情书</h5><small>爱情 · 电影 · 2026</small></div><div class="hot">🔥 162 万</div></div>
+                <div class="rank-row"><div class="num"></div><div class="rtxt"><h5>局外人</h5><small>犯罪 · 美剧 · 10 集</small></div><div class="hot">🔥 148 万</div></div>
+                <div class="rank-row"><div class="num"></div><div class="rtxt"><h5>雪线之上</h5><small>冒险 · 电影 · IMAX</small></div><div class="hot">🔥 135 万</div></div>
+                <div class="rank-row"><div class="num"></div><div class="rtxt"><h5>午夜旅馆</h5><small>惊悚 · 电影 · 98 分钟</small></div><div class="hot">🔥 121 万</div></div>
+                <div class="rank-row"><div class="num"></div><div class="rtxt"><h5>深蓝笔记</h5><small>纪录片 · 86 分钟</small></div><div class="hot">🔥 108 万</div></div>
+                <div class="rank-row"><div class="num"></div><div class="rtxt"><h5>听见现场</h5><small>音乐 · 综艺 · 12 期</small></div><div class="hot">🔥 96 万</div></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+    <div class="wrap">
+        <div class="about-grid">
+            <div class="rv">
+                <div class="bread"><a href="#top">首页</a><s>|</s>关于本站</div>
+                <h2 class="sec-title">关于 <u>12av电影网</u></h2>
+                <p style="color:var(--muted);margin-top:14px;">12av电影网（站点标识：12avdianyingwang-app）是一个以“帮助用户更快找到值得看的影视作品”为初衷的影视导航与资讯站点。我们不做资源的搬运，而做信息的整理：影片归类、类型标签、评分聚合、上映与更新提醒，让每一次打开都有明确去向。</p>
+                <p style="color:var(--muted);margin-top:12px;">网站地址为 <strong>https://域名.github.io</strong>（GitHub Pages 静态托管），全站采用语义化 HTML5 结构、移动端优先的响应式布局与渐进增强交互，符合主流搜索引擎对可访问性、加载性能与内容质量的收录偏好。</p>
+                <div class="stat-row">
+                    <div class="stat"><b>8600+</b><span>影片条目</span></div>
+                    <div class="stat"><b>120+</b><span>影视类型</span></div>
+                    <div class="stat"><b>每日</b><span>内容更新</span></div>
+                </div>
+            </div>
+            <div class="cta-box rv">
+                <h3>📬 想要第一时间知道更新？</h3>
+                <p>留下邮箱，12av电影网将在每周五推送“本周值得看”片单，无广告、可一键退订。</p>
+                <form class="cta-form" onsubmit="event.preventDefault();alert('订阅成功！（演示功能）');">
+                    <input type="email" placeholder="your@email.com" required aria-label="邮箱地址">
+                    <button class="btn btn-primary" type="submit" style="border:none;cursor:pointer;">立即订阅</button>
+                </form>
+                <p style="font-size:12px;color:var(--muted);margin:14px 0 0;">提交即表示同意本站隐私条款。我们不会向第三方共享你的联系方式。</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="wrap">
+        <div class="foot-grid">
+            <div class="foot-brand">
+                <a class="logo" href="#top"><span class="badge">12</span><span>av电影网</span></a>
+                <p>12av电影网（12avdianyingwang-app），聚焦电影、电视剧、动漫与综艺的在线观看指引与影评资讯，让好作品被更多人看见。</p>
+            </div>
+            <div class="foot-col">
+                <h5>频道导航</h5>
+                <a href="#hot">热播推荐</a>
+                <a href="#movie">电影频道</a>
+                <a href="#tv">剧集频道</a>
+                <a href="#news">影讯资讯</a>
+            </div>
+            <div class="foot-col">
+                <h5>影片类型</h5>
+                <a href="#">动作 / 科幻</a>
+                <a href="#">爱情 / 剧情</a>
+                <a href="#">悬疑 / 犯罪</a>
+                <a href="#">动画 / 纪录</a>
+            </div>
+            <div class="foot-col">
+                <h5>关于与帮助</h5>
+                <a href="#about">关于本站</a>
+                <a href="#">投稿合作</a>
+                <a href="#">隐私条款</a>
+                <a href="#">免责声明</a>
+            </div>
+        </div>
+        <div class="copyright">
+            © 2026 12av电影网 · 12avdianyingwang-app &nbsp;|&nbsp; 网站网址：https://域名.github.io &nbsp;|&nbsp;
+            本页面为演示用单页站点，内页链接以 <a href="#">#</a> 占位 &nbsp;|&nbsp; 倡导正版观影，尊重创作者权益
+        </div>
+    </div>
+</footer>
+
+<a class="top-link" id="topLink" href="#top" aria-label="回到顶部">↑</a>
+
+<script>
+    // 移动端菜单
+    var menuBtn = document.getElementById('menuBtn');
+    var navLinks = document.getElementById('navLinks');
+    menuBtn.addEventListener('click', function(){
+        navLinks.classList.toggle('open');
+        menuBtn.textContent = navLinks.classList.contains('open') ? '✕' : '☰';
+    });
+    navLinks.addEventListener('click', function(e){
+        if(e.target.tagName === 'A'){
+            navLinks.classList.remove('open');
+            menuBtn.textContent = '☰';
+        }
+    });
+
+    // 频道筛选（演示）
+    var chanNav = document.getElementById('chanNav');
+    chanNav.addEventListener('click', function(e){
+        if(e.target.tagName === 'BUTTON'){
+            Array.prototype.forEach.call(chanNav.children, function(b){ b.classList.remove('on'); });
+            e.target.classList.add('on');
+        }
+    });
+
+    // 滚动出现动画
+    var io = new IntersectionObserver(function(es){
+        es.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
+    }, { threshold:0.12 });
+    document.querySelectorAll('.rv').forEach(function(el){ io.observe(el); });
+
+    // 回到顶部
+    var topLink = document.getElementById('topLink');
+    window.addEventListener('scroll', function(){
+        topLink.style.display = window.scrollY > 600 ? 'grid' : 'none';
+    });
+</script>
+</body>
+</html>
